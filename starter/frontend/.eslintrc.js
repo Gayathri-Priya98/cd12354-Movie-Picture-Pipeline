@@ -1,5 +1,4 @@
-module.exports = {
-<<<<<<< HEAD
+ HEAD
     ignorePatterns: ['build/', 'dist/', 'node_modules/'],
     extends: ['eslint:recommended', 'plugin:react/recommended'],
     plugins: ['react', 'prettier'],
@@ -37,7 +36,7 @@ module.exports = {
     },
   };
   
-=======
+
   ignorePatterns: ['build/', 'dist/', 'node_modules/'],
   extends: ['eslint:recommended', 'plugin:react/recommended'],
   plugins: ['react', 'prettier'],
@@ -74,4 +73,4 @@ module.exports = {
     'react/jsx-uses-vars': 'warn',
   },
 };
->>>>>>> c38cdd2c54042d5ecfd6c56575d2af49728bea8c
+ c38cdd2c54042d5ecfd6c56575d2af49728bea8c
