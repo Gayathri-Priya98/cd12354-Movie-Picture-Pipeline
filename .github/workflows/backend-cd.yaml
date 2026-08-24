@@ -41,7 +41,7 @@ jobs:
         run: |
           aws eks update-kubeconfig --region us-east-1 --name cluster
 
-      -       - name: Deploy backend to EKS
+      - name: Deploy backend to EKS
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
