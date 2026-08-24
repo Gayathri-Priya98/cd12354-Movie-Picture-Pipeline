@@ -41,20 +41,40 @@ jobs:
         run: |
           aws eks update-kubeconfig --region us-east-1 --name cluster
 
-      - name: Deploy backend to EKS
+      -       - name: Deploy backend to EKS
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          echo "=== EKS ACCESS ENTRIES ==="
+          aws eks list-access-entries \
+            --cluster-name cluster \
+            --region us-east-1
+
+          echo "=== NODEGROUP HEALTH ==="
+          aws eks describe-nodegroup \
+            --cluster-name cluster \
+            --nodegroup-name udacity \
+            --region us-east-1 \
+            --query "nodegroup.health"
+
+          echo "=== NODEGROUP ROLE ==="
+          aws eks describe-nodegroup \
+            --cluster-name cluster \
+            --nodegroup-name udacity \
+            --region us-east-1 \
+            --query "nodegroup.nodeRole"
+
+          echo "=== KUBERNETES NODES ==="
           kubectl get nodes
+
           kubectl apply -k starter/backend/k8s
+
           kubectl set image deployment/backend \
             backend=$ECR_REGISTRY/backend:$IMAGE_TAG
 
-          kubectl get pods -o wide
-          kubectl describe deployment/backend
-
           kubectl rollout status deployment/backend
 
+          
 
           
