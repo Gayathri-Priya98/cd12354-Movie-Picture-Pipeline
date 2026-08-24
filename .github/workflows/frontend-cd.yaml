@@ -28,18 +28,14 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-        - name: Build and push frontend image
-          env:
-            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            ECR_REPOSITORY: frontend
-            IMAGE_TAG: ${{ github.sha }}
-            REACT_APP_MOVIE_API_URL: http://adac550308ffb46ab8812b872b68c452-427244242.us-east-1.elb.amazonaws.com
-          run: |
-            docker build \
-              --build-arg REACT_APP_MOVIE_API_URL=$REACT_APP_MOVIE_API_URL \
-              -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-              starter/frontend
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Build and push frontend image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: frontend
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG starter/frontend
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Update kubeconfig
         run: |
@@ -52,8 +48,7 @@ jobs:
         run: |
           kubectl apply -f starter/frontend/k8s/deployment.yaml
           kubectl apply -f starter/frontend/k8s/service.yaml
-          kubectl set image deployment/frontend \
-            frontend=$ECR_REGISTRY/frontend:$IMAGE_TAG
+          kubectl set image deployment/frontend frontend=$ECR_REGISTRY/frontend:$IMAGE_TAG
           kubectl rollout status deployment/frontend
 
 
