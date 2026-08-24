@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -10,9 +10,6 @@ function MovieList({ onMovieClick }) {
       .get(`${process.env.REACT_APP_MOVIE_API_URL}/movies`)
       .then((response) => {
         setMovies(response.data.movies);
-      })
-      .catch((error) => {
-        console.error('Error fetching movies:', error);
       });
   }, []);
 
