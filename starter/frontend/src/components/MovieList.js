@@ -14,9 +14,9 @@ function MovieList({ onMovieClick }) {
   return (
     <ul>
       {movies.map((movie) => (
-        <li 
-          className="movieItem" 
-          key={movie.id} 
+        <li
+          className="movieItem"
+          key={movie.id}
           onClick={() => onMovieClick(movie)}
         >
           {movie.title}
@@ -24,7 +24,7 @@ function MovieList({ onMovieClick }) {
       ))}
     </ul>
   );
-}
+  }
 
 MovieList.propTypes = {
   onMovieClick: PropTypes.func.isRequired,
